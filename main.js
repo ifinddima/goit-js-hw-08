@@ -29,8 +29,6 @@ ulGalleryRef.insertAdjacentHTML("beforeend", createGalleryItem);
 ulGalleryRef.addEventListener("click", openModal);
 closeModalBtn.addEventListener("click", closeModal);
 modalOverlay.addEventListener("click", closeModal);
-window.addEventListener("keydown", closeModalEsc);
-window.addEventListener("keydown", slideImg);
 
 function openModal(e) {
   e.preventDefault();
@@ -44,6 +42,9 @@ function openModal(e) {
   lightBoxImgRef.src = e.target.dataset.source;
   lightBoxImgRef.alt = e.target.alt;
   lightBoxImgRef.setAttribute("data-index", indexImg);
+
+  window.addEventListener("keydown", closeModalEsc);
+  window.addEventListener("keydown", slideImg);
 }
 
 function closeModal() {
@@ -69,15 +70,17 @@ function slideImg(e) {
 
   if (e.code === "ArrowRight" && count < imgRefGlobalLength - 1) {
     count += 1;
-    lightBoxImgRef.src = galleryItems[count].original;
-    lightBoxImgRef.alt = galleryItems[count].alt;
-    lightBoxImgRef.setAttribute("data-index", count);
+    imgUrlAltIndex(count);
   }
 
   if (e.code === "ArrowLeft" && count > 0) {
     count -= 1;
-    lightBoxImgRef.src = galleryItems[count].original;
-    lightBoxImgRef.alt = galleryItems[count].alt;
-    lightBoxImgRef.setAttribute("data-index", count);
+    imgUrlAltIndex(count);
   }
+}
+
+function imgUrlAltIndex(index) {
+  lightBoxImgRef.src = galleryItems[index].original;
+  lightBoxImgRef.alt = galleryItems[index].alt;
+  lightBoxImgRef.setAttribute("data-index", index);
 }
